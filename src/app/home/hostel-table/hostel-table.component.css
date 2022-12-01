@@ -1,0 +1,23 @@
+.container{
+    width: 80vw;
+    margin-top: 5%;
+}
+
+.raised-button{
+    margin-right: 1vw;
+    background: #4285F4;
+    color: white;
+    font-size: 12px;
+    line-height: 18px;
+    height: auto;
+    width: 100px;
+}
+
+.icon-button{
+    margin-right: 1vw;
+    color: white;
+    font-size: 12px;
+    line-height: 18px;
+    height: auto;
+    width: 100px;
+}

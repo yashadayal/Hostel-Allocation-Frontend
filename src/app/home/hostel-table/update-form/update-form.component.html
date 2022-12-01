@@ -1,0 +1,24 @@
+<div class="parent">
+    <button class="close" mat-button mat-dialog-close>X</button>
+    <h1 mat-dialog-title>Level</h1>
+    <form [formGroup]="UpdateForm">
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <label for="roomNo" class="col-form-label">Room Number</label>
+                <input type="text" class="form-control" id="roomNo" formControlName="roomNo"
+                    [value]="hostelDetail.roomNo" placeholder="Room Number" readonly>
+            </div>
+            <div class="col-sm-6">
+                <label for="floor" class="col-form-label">Floor</label>
+                <input type="text" class="form-control" id="floor" formControlName="floor" [value]="hostelDetail.floor"
+                    placeholder="Floor" readonly>
+            </div>
+            <div class="col-sm-6">
+                <label for="student" class="col-form-label">Student Roll Number</label>
+                <input type="text" class="form-control" id="rollNo" formControlName="rollNo"
+                    [value]="hostelDetail.student.rollNo" placeholder="Student Roll Number">
+            </div>
+        </div>
+        <button mat-raised-button (click)="updateHostel(UpdateForm)" mat-dialog-close>Update Room Details</button>
+    </form>
+</div>

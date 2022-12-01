@@ -1,0 +1,12 @@
+.parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 80vh;
+}
+
+.form{
+  padding: 2%;
+  border-radius: 5%;
+}

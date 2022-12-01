@@ -1,0 +1,21 @@
+<div class="container parent">
+    <div class="form mat-elevation-z8">
+        <h2>Login</h2>
+        <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" ngNativeValidate>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Email Id</mat-label>
+                    <input type="text" ngModel id="email" name="email" required matInput />
+                </mat-form-field>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Password</mat-label>
+                        <input type="password" class="form-control" ngModel name="password" id="password" required
+                            matInput>
+                    </mat-form-field>
+                </div>
+                <button mat-raised-button (click)="login(loginForm)">Login</button>
+            </div>
+        </form>
+    </div>
+</div>

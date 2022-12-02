@@ -16,6 +16,12 @@
     <table mat-table [dataSource]="dataSourceHostel" matSort>
 
       <!-- Floor Column -->
+      <ng-container matColumnDef="hostelId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> hostel Id </th>
+        <td mat-cell *matCellDef="let row"> {{row.hostelId}} </td>
+      </ng-container>
+
+      <!-- Floor Column -->
       <ng-container matColumnDef="floor">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Floor </th>
         <td mat-cell *matCellDef="let row"> {{row.floor}} </td>
@@ -30,8 +36,7 @@
       <!-- Name Column -->
       <ng-container matColumnDef="studentName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Student Name </th>
-        <td mat-cell *matCellDef="let row"> {{row.student==null ? "Unallocated" : row.student.firstName+"
-          "+row.student.lastName}}</td>
+        <td mat-cell *matCellDef="let row"> {{row.name}}</td>
       </ng-container>
 
       <ng-container matColumnDef="update">
@@ -51,7 +56,7 @@
       <ng-container matColumnDef="unallocate">
         <th mat-header-cell *matHeaderCellDef> Unallocate Room </th>
         <td mat-cell *matCellDef="let element">
-          <div *ngIf="element.student!=null">
+          <div *ngIf="element.name!='Unallocated'">
             <button mat-icon-button color="warn" (click)="unallocateRoom(element)">
               <mat-icon class="mat-18">delete</mat-icon>
             </button>

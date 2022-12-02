@@ -21,3 +21,6 @@
     height: auto;
     width: 100px;
 }
+table {
+    border-color: black;
+}

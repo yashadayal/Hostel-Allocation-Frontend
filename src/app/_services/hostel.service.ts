@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { baseUrl } from '../../environments/environments'
 import { Hostel } from '../_Interface/Hostel';
+import { Student } from '../_Interface/Student';
 
 
 @Injectable({
@@ -16,6 +17,7 @@ export class HostelService {
   }
 
   public updateHostel(roomNo: number, hostelDetails: Hostel){
+    console.log(roomNo, hostelDetails);
     return this.httpClient.put(`${baseUrl}/api/hostel/update/${roomNo}`, hostelDetails);
   }
 

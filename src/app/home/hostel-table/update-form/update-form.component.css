@@ -1,9 +1,15 @@
+.container{
+    /* height: 30vw;
+    */
+    width: 60vh;
+     /* padding: 20%; */
+}
 .parent {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 2%;
+    margin: 2%;
 }
 .close {
     align-content: right;

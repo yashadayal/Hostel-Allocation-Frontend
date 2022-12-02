@@ -5,6 +5,7 @@ import { HostelService } from 'src/app/_services/hostel.service';
 import { UpdateFormComponent } from './update-form/update-form.component';
 import { Hostel } from 'src/app/_Interface/Hostel';
 import { Student } from 'src/app/_Interface/Student';
+import { HostelWithStudentName } from 'src/app/_Interface/HostelWithStudentName';
 
 @Component({
   selector: 'app-hostel-table',
@@ -12,13 +13,13 @@ import { Student } from 'src/app/_Interface/Student';
   styleUrls: ['./hostel-table.component.css']
 })
 export class HostelTableComponent {
-  hostelColumns: string[] = ['floor', 'roomNumber', 'studentName', 'update', 'unallocate'];
-  public dataSourceHostel = new MatTableDataSource<Hostel>();
-
+  //Table column names
+  hostelColumns: string[] = ['hostelId', 'floor', 'roomNumber', 'studentName', 'update', 'unallocate'];
+  public dataSourceHostel = new MatTableDataSource<HostelWithStudentName>();
   constructor(public hostelService: HostelService, public dialog: MatDialog) {
     
   }
-
+  //Loaded when page is loaded
   ngAfterViewInit() {
     this.getTableData();
   }
@@ -26,18 +27,31 @@ export class HostelTableComponent {
   public getTableData = () => {
         this.hostelService.getRooms()
           .subscribe(res => {
-            console.log("result", res);
-            this.dataSourceHostel.data = res as Hostel[];
+            // this.dataSourceHostel.data = res as Hostel[];
+            var newDataSourceHostel = new Array((res as Hostel[]).length);
+            for (var hostel of res as HostelWithStudentName[]) {
+              var newHostel = ({} as any) as HostelWithStudentName;
+              var student = ({} as any) as Student;
+              newHostel.hostelId = hostel.hostelId;
+              newHostel.floor = hostel.floor;
+              newHostel.roomNo = hostel.roomNo;
+              newHostel.name =  "Unallocated"
+              if(hostel.student != null){
+                student.rollNo = hostel.student.rollNo;
+                newHostel.rollNo = hostel.student.rollNo;
+                newHostel.name = hostel.student.firstName+" "+hostel.student.lastName;
+              }
+              newHostel.student = student;
+              newDataSourceHostel.push(newHostel);
+            }
+            this.dataSourceHostel.data = newDataSourceHostel.filter(n => n) as HostelWithStudentName[]; 
+            console.log(this.dataSourceHostel.data);
           })
       }
 
-  applyFilter(event: Event) {
+  public applyFilter = (event: Event) => {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceHostel.filter = filterValue.trim().toLowerCase();
-
-    // if (this.dataSourceHostel.paginator) {
-    //   this.dataSourceHostel.paginator.firstPage();
-    // }
   }
 
   public openUpdateDialog = (element: any) => {
@@ -56,9 +70,15 @@ export class HostelTableComponent {
       });
     }
 
-    public unallocateRoom = (element: Hostel) => {
+    public unallocateRoom = (element: HostelWithStudentName) => {
       element.student = ({} as any) as Student;
-      this.hostelService.updateHostel(element.roomNo, element).subscribe({
+      var hostel = ({} as any) as Hostel;
+      var student = ({} as any) as Student;
+      hostel.floor = element.floor;
+      hostel.hostelId = element.hostelId;
+      hostel.roomNo = element.roomNo;
+      hostel.student = student;
+      this.hostelService.updateHostel(element.hostelId, hostel).subscribe({
         next: (response: any) => {
           alert("Room got unallocated!");
         },

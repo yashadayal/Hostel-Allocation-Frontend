@@ -15,8 +15,8 @@ export class HostelService {
     return this.httpClient.get(`${baseUrl}/api/hostel/rooms`);
   }
 
-  public updateHostel(hostelId: number, hostelDetails: Hostel){
-    return this.httpClient.put(`${baseUrl}/api/hostel/update/${hostelId}`, hostelDetails);
+  public updateHostel(roomNo: number, hostelDetails: Hostel){
+    return this.httpClient.put(`${baseUrl}/api/hostel/update/${roomNo}`, hostelDetails);
   }
 
   public addRoom(hostelDetails: Hostel){

@@ -1,13 +1,9 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
+import {AfterViewInit, Component} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {MatTableDataSource} from '@angular/material/table';
 import { HostelService } from 'src/app/_services/hostel.service';
 import { UpdateFormComponent } from './update-form/update-form.component';
-import swal from 'sweetalert2'; 
 import { Hostel } from 'src/app/_Interface/Hostel';
-import { elementAt } from 'rxjs';
 import { Student } from 'src/app/_Interface/Student';
 
 @Component({
@@ -30,7 +26,7 @@ export class HostelTableComponent {
   public getTableData = () => {
         this.hostelService.getRooms()
           .subscribe(res => {
-            console.log("res", res);
+            console.log("result", res);
             this.dataSourceHostel.data = res as Hostel[];
           })
       }
@@ -39,15 +35,13 @@ export class HostelTableComponent {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceHostel.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSourceHostel.paginator) {
-      this.dataSourceHostel.paginator.firstPage();
-    }
+    // if (this.dataSourceHostel.paginator) {
+    //   this.dataSourceHostel.paginator.firstPage();
+    // }
   }
 
   public openUpdateDialog = (element: any) => {
         const dialogRef = this.dialog.open(UpdateFormComponent, { data: { element: element, operation: "update"},
-        // height: '400px',
-        // width: '600px' 
       });
         dialogRef.afterClosed().subscribe(result => {;
           this.getTableData();
@@ -58,14 +52,13 @@ export class HostelTableComponent {
       const dialogRef = this.dialog.open(UpdateFormComponent, { data: { element: element, operation: "allocate"},  height: '400px',
       width: '600px' });
       dialogRef.afterClosed().subscribe(result => {;
-
-        this.refresh();
+        this.getTableData();
       });
     }
 
     public unallocateRoom = (element: Hostel) => {
       element.student = ({} as any) as Student;
-      this.hostelService.updateHostel(element.hostelId, element).subscribe({
+      this.hostelService.updateHostel(element.roomNo, element).subscribe({
         next: (response: any) => {
           alert("Room got unallocated!");
         },
@@ -88,7 +81,7 @@ export class HostelTableComponent {
       var student = ({} as any) as Student;
       hostel.floor = Number(floor);
       hostel.roomNo = Number(roomNo);
-      hostel.student = student;
+      //hostel.student = student;//with or without this student is set as NULL
       this.hostelService.addRoom(hostel).subscribe({
         next: (response: any)=> {
           alert("Room added successfully!");

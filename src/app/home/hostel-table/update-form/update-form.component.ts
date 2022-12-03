@@ -27,7 +27,6 @@ export class UpdateFormComponent {
     if(this.data.element.student == null){
       this.data.element.student = this.student;
     }
-    console.log("Received data: ", data);
       this.UpdateForm = this.fb.group({
         roomNo: this.hostelDetail.roomNo,
         floor: this.hostelDetail.floor,
@@ -39,15 +38,13 @@ export class UpdateFormComponent {
   ngOnInit(): void {
 
   }
-
-
+  
   public updateHostel(hostelDetails: any) {
     this.hostel.roomNo = hostelDetails.value.roomNo;
     this.hostel.floor = hostelDetails.value.floor;
     this.student.rollNo = hostelDetails.value.rollNo;
     this.hostel.student = this.student;
     this.hostel.hostelId = this.hostelDetail.hostelId;
-    console.log("updateHostel: ", this.hostel);
     this.hostelService.updateHostel(this.hostelDetail.hostelId, this.hostel).subscribe({
       next: (response: any) => {
         console.log(response);

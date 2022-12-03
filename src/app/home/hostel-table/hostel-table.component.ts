@@ -45,7 +45,7 @@ export class HostelTableComponent {
               newDataSourceHostel.push(newHostel);
             }
             this.dataSourceHostel.data = newDataSourceHostel.filter(n => n) as HostelWithStudentName[]; 
-            console.log(this.dataSourceHostel.data);
+            // console.log(this.dataSourceHostel.data);
           })
       }
 
@@ -59,6 +59,7 @@ export class HostelTableComponent {
       });
         dialogRef.afterClosed().subscribe(result => {;
           this.getTableData();
+          setTimeout(()=>this.refresh(), 2000);
         });
       }
       
@@ -67,6 +68,7 @@ export class HostelTableComponent {
       width: '600px' });
       dialogRef.afterClosed().subscribe(result => {;
         this.getTableData();
+        setTimeout(()=>this.refresh(), 2000);
       });
     }
 
@@ -81,14 +83,17 @@ export class HostelTableComponent {
       this.hostelService.updateHostel(element.hostelId, hostel).subscribe({
         next: (response: any) => {
           alert("Room got unallocated!");
+          this.refresh();
         },
         error: (error: any) => {
           console.log("Error: ", error);
+          this.refresh();
         }
       })
     }
 
     refresh() {
+      console.log("refresh");
       this.getTableData();
     }
 
@@ -101,14 +106,14 @@ export class HostelTableComponent {
       var student = ({} as any) as Student;
       hostel.floor = Number(floor);
       hostel.roomNo = Number(roomNo);
-      //hostel.student = student;//with or without this student is set as NULL
+      hostel.student = student;//with or without this student is set as NULL
       this.hostelService.addRoom(hostel).subscribe({
         next: (response: any)=> {
-          alert("Room added successfully!");
           this.refresh();
         },
         error: (error: any)=> {
-          console.log("Error:" , error);
+          alert("Room added successfully!");
+          this.refresh();
         }
       });
     }
